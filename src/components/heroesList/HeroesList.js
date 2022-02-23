@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError } from '../../actions';
+import { heroesFetching, heroesFetched, heroesFetchingError, heroesDeleting } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -18,12 +18,24 @@ const HeroesList = () => {
 
     useEffect(() => {
         dispatch(heroesFetching());
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+        loadingHero();
 
         // eslint-disable-next-line
     }, []);
+
+    const loadingHero = () => {
+        request("http://localhost:3001/heroes")
+            .then(data => dispatch(heroesFetched(data)))
+            .catch(() => dispatch(heroesFetchingError()))
+    }
+
+
+    const deletingHero = (e) => {
+        const newListHeroes = heroes.filter(item => item.id !== +e.target.id);
+        request(`http://localhost:3001/heroes/${e.target.id}`, 'DELETE')
+            .then(() => dispatch(heroesDeleting(newListHeroes)));
+        
+    }
 
     if (heroesLoadingStatus === "loading") {
         return <Spinner/>;
@@ -37,7 +49,11 @@ const HeroesList = () => {
         }
 
         return arr.map(({id, ...props}) => {
-            return <HeroesListItem key={id} {...props}/>
+            return <HeroesListItem 
+                        key={id} 
+                        {...props}
+                        id={id}
+                        deletingHero={deletingHero}/>
         })
     }
 
