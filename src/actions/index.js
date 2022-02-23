@@ -23,3 +23,17 @@ export const heroesDeleting = (heroes) => {
         payload: heroes
     }
 }
+
+export const heroesAdded = (heroes) => {
+    return {
+        type: 'HEROES_ADDED',
+        payload: heroes
+    }
+}
+
+export const optionFetched = (option) => {
+    return {
+        type: 'OPTION_FETCHED',
+        payload: option
+    }
+}

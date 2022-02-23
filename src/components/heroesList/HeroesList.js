@@ -31,7 +31,7 @@ const HeroesList = () => {
 
 
     const deletingHero = (e) => {
-        const newListHeroes = heroes.filter(item => item.id !== +e.target.id);
+        const newListHeroes = heroes.filter(item => item.id !== e.target.id);
         request(`http://localhost:3001/heroes/${e.target.id}`, 'DELETE')
             .then(() => dispatch(heroesDeleting(newListHeroes)));
         

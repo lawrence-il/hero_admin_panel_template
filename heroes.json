@@ -1,29 +1,69 @@
 {
   "heroes": [
-      {
-          "id": 1,
-          "name": "Первый герой",
-          "description": "Первый герой в рейтинге!",
-          "element": "fire"
-      },
-      {
-          "id": 2,
-          "name": "Неизвестный герой",
-          "description": "Скрывающийся в тени",
-          "element": "wind"
-      },
-      {
-          "id": 3,
-          "name": "Морской герой",
-          "description": "Как аквамен, но не из DC",
-          "element": "water"
-      }
+    {
+      "id": "c6070b57-3f87-4cc7-a8f0-1b18d510d034",
+      "name": "Первый герой",
+      "description": "Первый герой в рейтинге!",
+      "element": "fire"
+    },
+    {
+      "id": "916f74f5-8ebc-4b31-b4a6-7488d859b8d3",
+      "name": "Неизвестный герой",
+      "description": "Скрывающийся в тени",
+      "element": "wind"
+    },
+    {
+      "id": "e849a062-f782-4ff7-ad64-307d14131736",
+      "name": "Морской герой",
+      "description": "Как аквамен, но не из DC",
+      "element": "water"
+    },
+    {
+      "id": "61c44752-53a9-4490-a0f6-4f5ffe8296b0",
+      "name": "Илья4",
+      "description": "sad",
+      "element": "fire"
+    },
+    {
+      "id": "5a5af8f5-b233-4801-9220-1e128137213d",
+      "name": "Илья",
+      "description": "saddsfff",
+      "element": "wind"
+    },
+    {
+      "id": "5da2d76c-7d9e-4f8f-a4d4-14a8906ef9b1",
+      "name": "Пчела",
+      "description": "1",
+      "element": "water"
+    }
   ],
   "filters": [
-      "all",
-      "fire",
-      "water",
-      "wind",
-      "earth"
+    "all",
+    "fire",
+    "water",
+    "wind",
+    "earth"
+  ],
+  "chooseElement": [
+    {
+      "value": "",
+      "text": "Я владею элементом..."
+    },
+    {
+      "value": "fire",
+      "text": "Огонь"
+    },
+    {
+      "value": "water",
+      "text": "Вода"
+    },
+    {
+      "value": "wind",
+      "text": "Ветер"
+    },
+    {
+      "value": "earth",
+      "text": "Земля"
+    }
   ]
 }
