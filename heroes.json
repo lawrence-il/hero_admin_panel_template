@@ -46,8 +46,8 @@
   ],
   "chooseElement": [
     {
-      "value": "",
-      "text": "Я владею элементом..."
+      "value": "all",
+      "text": "Все"
     },
     {
       "value": "fire",

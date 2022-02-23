@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
@@ -27,7 +27,6 @@ const HeroesAddForm = () => {
         // eslint-disable-next-line
     }, [])
 
-
     const addingHeroes = (value) => {
         value = {id: uuidv4(), ...value};
         dispatch(heroesAdded(value))
@@ -39,11 +38,22 @@ const HeroesAddForm = () => {
                 .then(data => dispatch(optionFetched(data)))
     }
 
-    const creatingOption = () => {
-        return option.map(({value, text}, i) => {
-            return <option key={i} value={value}>{text}</option>
-        })
+    const creatingOption =  () => {
+        const options = [];
+        for (let i = 0; i <= option.length - 1; i++) {
+            if (option[i].text === 'Все') continue;
+            options[i] = <option 
+                            key={i} 
+                            value={option[i].value}
+                            >
+                                {option[i].text}
+                        </option>
+        }
+        return options;
     } 
+    
+    // eslint-disable-next-line
+    const options = useMemo(() => creatingOption(), [option]);
 
     return (
         <Formik
@@ -87,7 +97,8 @@ const HeroesAddForm = () => {
                         id="element" 
                         name="element"
                         as="select">
-                        {creatingOption()}
+                        <option value="">Я владею элементом...</option>
+                        {options}
                     </Field>
                 </div>
 
