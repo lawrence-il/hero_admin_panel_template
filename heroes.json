@@ -17,24 +17,6 @@
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"
-    },
-    {
-      "id": "61c44752-53a9-4490-a0f6-4f5ffe8296b0",
-      "name": "Илья4",
-      "description": "sad",
-      "element": "fire"
-    },
-    {
-      "id": "5a5af8f5-b233-4801-9220-1e128137213d",
-      "name": "Илья",
-      "description": "saddsfff",
-      "element": "wind"
-    },
-    {
-      "id": "5da2d76c-7d9e-4f8f-a4d4-14a8906ef9b1",
-      "name": "Пчела",
-      "description": "1",
-      "element": "water"
     }
   ],
   "filters": [
@@ -47,23 +29,28 @@
   "chooseElement": [
     {
       "value": "all",
-      "text": "Все"
+      "text": "Все",
+      "className": "btn btn-outline-dark"
     },
     {
       "value": "fire",
-      "text": "Огонь"
+      "text": "Огонь",
+      "className": "btn btn-danger"
     },
     {
       "value": "water",
-      "text": "Вода"
+      "text": "Вода",
+      "className": "btn btn-primary"
     },
     {
       "value": "wind",
-      "text": "Ветер"
+      "text": "Ветер",
+      "className": "btn btn-success"
     },
     {
       "value": "earth",
-      "text": "Земля"
+      "text": "Земля",
+      "className": "btn btn-secondary"
     }
   ]
 }

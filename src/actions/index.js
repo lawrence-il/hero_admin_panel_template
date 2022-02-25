@@ -37,3 +37,24 @@ export const optionFetched = (option) => {
         payload: option
     }
 }
+
+export const filteringValue = (value) => {
+    return {
+        type: 'FILTERING_VALUE',
+        payload: value,
+    }
+}
+
+export const filteredHeroes = (newListHeroes) => {
+    return {
+        type: 'FILTERED_HEROES',
+        payload: newListHeroes,
+    }
+}
+
+export const heroesBackup = (heroes) => {
+    return {
+        type: 'HEROES_BACKUP',
+        payload: heroes,
+    }
+}

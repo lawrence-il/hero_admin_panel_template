@@ -25,11 +25,11 @@ const HeroesAddForm = () => {
         loadingOptionData();
         
         // eslint-disable-next-line
-    }, [])
+    }, []);
 
     const addingHeroes = (value) => {
         value = {id: uuidv4(), ...value};
-        dispatch(heroesAdded(value))
+        dispatch(heroesAdded(value));
         request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(value));
     }
     

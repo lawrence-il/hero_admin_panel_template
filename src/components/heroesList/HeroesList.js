@@ -17,11 +17,9 @@ const HeroesList = () => {
     const dispatch = useDispatch();
     const {request} = useHttp();
     
-    
     useEffect(() => {
         dispatch(heroesFetching());
         loadingHero();
-
         // eslint-disable-next-line
     }, []);
 
