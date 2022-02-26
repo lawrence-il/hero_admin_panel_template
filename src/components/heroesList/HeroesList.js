@@ -1,8 +1,8 @@
 import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 
-import { heroesFetching, heroesFetched, heroesFetchingError, heroesDeleting } from '../../actions';
+import * as actions from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 
@@ -11,29 +11,27 @@ import Spinner from '../spinner/Spinner';
 // Усложненная задача:
 // Удаление идет и с json файла при помощи метода DELETE
 
-const HeroesList = () => {
+const HeroesList = ({heroes, heroesLoadingStatus, heroesFetching, heroesFetched, heroesFetchingError, heroesDeleting}) => {
 
-    const {heroes, heroesLoadingStatus} = useSelector(state => state);
-    const dispatch = useDispatch();
     const {request} = useHttp();
     
     useEffect(() => {
-        dispatch(heroesFetching());
+        heroesFetching(); // actionCreators обёрнутый в диспетч
         loadingHero();
         // eslint-disable-next-line
     }, []);
 
     const loadingHero = () => {
         request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
+            .then(data => heroesFetched(data))
+            .catch(() => heroesFetchingError())
     }
 
 
     const deletingHero = (e) => {
         const newListHeroes = heroes.filter(item => item.id !== e.target.id);
         request(`http://localhost:3001/heroes/${e.target.id}`, 'DELETE')
-            .then(() => dispatch(heroesDeleting(newListHeroes)));
+            .then(() => heroesDeleting(newListHeroes))
         
     }
 
@@ -65,4 +63,11 @@ const HeroesList = () => {
     )
 }
 
-export default HeroesList;
+const mapStateToProps = state => {
+    return {
+        heroes: state.heroes, 
+        heroesLoadingStatus: state.heroesLoadingStatus
+    }
+}
+
+export default connect(mapStateToProps, actions)(HeroesList);

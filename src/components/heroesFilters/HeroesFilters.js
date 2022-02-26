@@ -1,7 +1,7 @@
-import { useEffect } from "react";
 import { useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
+import { connect } from "react-redux";
+import { useHttp } from "../../hooks/http.hook";
+import * as actions from "../../actions";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -10,39 +10,39 @@ import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
 // Изменять json-файл для удобства МОЖНО!
 // Представьте, что вы попросили бэкенд-разработчика об этом
 
-const HeroesFilters = () => {
+const HeroesFilters = ({heroes, sortedHeroes, option, activeBtn, heroesFetched, filteringValue, filteredHeroes, heroesFetchingError}) => {
 
-    const {heroes, sortedHeroes, option, activeBtn} = useSelector(state => state);
-    const dispatch = useDispatch();
+    const {request} = useHttp();
 
-    useEffect(() => {
-        if (activeBtn === 'all') {
-            dispatch(heroesBackup(heroes));
-        }
-    }, [heroes])
+    const loadingHero = () => {
+        request("http://localhost:3001/heroes")
+            .then(data => heroesFetched(data))
+            .catch(() => heroesFetchingError())
+    }
 
     const filtering = (e) => {
         const newListHeroes = heroes.filter(item => item.element === e.target.id);
         switch(e.target.id) {
             case 'all':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(sortedHeroes));
+                loadingHero();
+                filteringValue(e.target.id)
+                filteredHeroes(sortedHeroes)
                 break;
             case 'fire':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
+                filteringValue(e.target.id)
+                filteredHeroes(newListHeroes)
                 break;
             case 'water':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
+                filteringValue(e.target.id)
+                filteredHeroes(newListHeroes)
                 break;
             case 'wind':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
+                filteringValue(e.target.id)
+                filteredHeroes(newListHeroes)
                 break;
             case 'earth':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
+                filteringValue(e.target.id)
+                filteredHeroes(newListHeroes)
                 break;
             default:
                 throw Error();
@@ -63,7 +63,7 @@ const HeroesFilters = () => {
         });
     }
 
-    const btns = useMemo(() => creatingBtns(), [option, activeBtn]);
+    const btns = useMemo(() => creatingBtns(), [heroes, option, activeBtn]);
     // получить стейт фильтр и heroes
     // получить данные про фильтр с сервака и записать в стейт
     // в зависимости от поля элемент в хероес, отображать тех или иных героев
@@ -79,4 +79,10 @@ const HeroesFilters = () => {
     )
 }
 
-export default HeroesFilters;
+const mapStateToProps = state => {
+    return {
+        ...state,
+    }
+}
+
+export default connect(mapStateToProps, actions)(HeroesFilters);

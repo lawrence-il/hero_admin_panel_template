@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from 'react';
 import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { connect } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { heroesAdded, optionFetched } from '../../actions';
+import * as actions from '../../actions';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -15,11 +15,9 @@ import { heroesAdded, optionFetched } from '../../actions';
 // Элементы <option></option> желательно сформировать на базе
 // данных из фильтров
 
-const HeroesAddForm = () => {
+const HeroesAddForm = ({ option, heroesAdded, optionFetched }) => {
 
-    const {option} = useSelector(state => state)
     const {request} = useHttp();
-    const dispatch = useDispatch();
 
     useEffect(() => {
         loadingOptionData();
@@ -29,13 +27,13 @@ const HeroesAddForm = () => {
 
     const addingHeroes = (value) => {
         value = {id: uuidv4(), ...value};
-        dispatch(heroesAdded(value));
+        heroesAdded(value)
         request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(value));
     }
     
     const loadingOptionData = () => {
         request(`http://localhost:3001/chooseElement`)
-                .then(data => dispatch(optionFetched(data)))
+                .then(data => optionFetched(data))
     }
 
     const creatingOption =  () => {
@@ -108,4 +106,11 @@ const HeroesAddForm = () => {
     )
 }
 
-export default HeroesAddForm;
+const mapStateToProps = state => {
+    return {
+        option: state.option
+    }
+}
+
+
+export default connect(mapStateToProps, actions)(HeroesAddForm);
