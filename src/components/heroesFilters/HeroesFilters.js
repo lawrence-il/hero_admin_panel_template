@@ -1,7 +1,7 @@
-import { useEffect } from "react";
-import { useMemo } from "react";
+import { useHttp } from '../../hooks/http.hook'
+import { useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
+import { filteringValue, filteredHeroes, heroesFetched,  heroesFetchingError, heroesBackup } from "../../actions";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -12,21 +12,31 @@ import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
 
 const HeroesFilters = () => {
 
-    const {heroes, sortedHeroes, option, activeBtn} = useSelector(state => state);
+    const {heroes, option, activeBtn, backupHeroes} = useSelector(state => state);
     const dispatch = useDispatch();
+    const {request} = useHttp();
 
+    // Без бекапа не работает правильно фильтрация. 
+    // После выбора первый раз фильтра другие фильтры, кроме all, не работают
+    // т.к heroes перезаписывается
+    // Бекап heroes, фильтрация происходит по бекапу
     useEffect(() => {
-        if (activeBtn === 'all') {
-            dispatch(heroesBackup(heroes));
-        }
-    }, [heroes])
+        if (activeBtn === 'all') dispatch(heroesBackup(heroes));
+    }, [heroes]);
+
+    // const loadingHero = () => {
+    //     request("http://localhost:3001/heroes")
+    //         .then(data => dispatch(heroesFetched(data)))
+    //         .catch(() => dispatch(heroesFetchingError()))
+    // }
 
     const filtering = (e) => {
-        const newListHeroes = heroes.filter(item => item.element === e.target.id);
+        const newListHeroes = backupHeroes.filter(item => item.element === e.target.id);
         switch(e.target.id) {
             case 'all':
+                // loadingHero();
                 dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(sortedHeroes));
+                dispatch(filteredHeroes(backupHeroes));
                 break;
             case 'fire':
                 dispatch(filteringValue(e.target.id));
@@ -63,7 +73,7 @@ const HeroesFilters = () => {
         });
     }
 
-    const btns = useMemo(() => creatingBtns(), [option, activeBtn]);
+    const btns = useMemo(() => creatingBtns(), [heroes, option, backupHeroes]);
     // получить стейт фильтр и heroes
     // получить данные про фильтр с сервака и записать в стейт
     // в зависимости от поля элемент в хероес, отображать тех или иных героев

@@ -17,7 +17,7 @@ import { heroesAdded, optionFetched } from '../../actions';
 
 const HeroesAddForm = () => {
 
-    const {option} = useSelector(state => state)
+    const {option} = useSelector(state => state);
     const {request} = useHttp();
     const dispatch = useDispatch();
 
@@ -27,10 +27,10 @@ const HeroesAddForm = () => {
         // eslint-disable-next-line
     }, []);
 
-    const addingHeroes = (value) => {
-        value = {id: uuidv4(), ...value};
-        dispatch(heroesAdded(value));
-        request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(value));
+    const addingHeroes = (values) => {
+        values = {id: uuidv4(), ...values};
+        dispatch(heroesAdded(values));
+        request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(values));
     }
     
     const loadingOptionData = () => {

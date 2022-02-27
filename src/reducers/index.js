@@ -1,6 +1,6 @@
 const initialState = {
     heroes: [],
-    sortedHeroes: [],
+    backupHeroes: [],
     heroesLoadingStatus: 'idle',
     option: [],
     activeBtn: 'all'
@@ -34,13 +34,14 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 heroes: [...state.heroes, action.payload],
-                heroesLoadingStatus: 'idle'
+                heroesLoadingStatus: 'idle',
+                backupHeroes: [...state.backupHeroes, action.payload],
             }
         case 'HEROES_BACKUP':
             return {
                 ...state,
                 heroesLoadingStatus: 'idle',
-                sortedHeroes: action.payload
+                backupHeroes: action.payload
             }
         case 'OPTION_FETCHED':
             return {
