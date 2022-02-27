@@ -1,7 +1,6 @@
-import { useHttp } from '../../hooks/http.hook'
 import { useMemo, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filteringValue, filteredHeroes, heroesFetched,  heroesFetchingError, heroesBackup } from "../../actions";
+import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -14,7 +13,6 @@ const HeroesFilters = () => {
 
     const {heroes, option, activeBtn, backupHeroes} = useSelector(state => state);
     const dispatch = useDispatch();
-    const {request} = useHttp();
 
     // Без бекапа не работает правильно фильтрация. 
     // После выбора первый раз фильтра другие фильтры, кроме all, не работают
@@ -24,39 +22,19 @@ const HeroesFilters = () => {
         if (activeBtn === 'all') dispatch(heroesBackup(heroes));
     }, [heroes]);
 
-    // const loadingHero = () => {
-    //     request("http://localhost:3001/heroes")
-    //         .then(data => dispatch(heroesFetched(data)))
-    //         .catch(() => dispatch(heroesFetchingError()))
-    // }
 
     const filtering = (e) => {
         const newListHeroes = backupHeroes.filter(item => item.element === e.target.id);
-        switch(e.target.id) {
-            case 'all':
-                // loadingHero();
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(backupHeroes));
-                break;
-            case 'fire':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
-                break;
-            case 'water':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
-                break;
-            case 'wind':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
-                break;
-            case 'earth':
-                dispatch(filteringValue(e.target.id));
-                dispatch(filteredHeroes(newListHeroes));
-                break;
-            default:
-                throw Error();
+        if(e.target.id === 'all') {
+            dispatch(filteringValue(e.target.id));
+            dispatch(filteredHeroes(backupHeroes));
+        }else if (e.target.id){
+            dispatch(filteringValue(e.target.id));
+            dispatch(filteredHeroes(newListHeroes));
+        } else {
+            throw Error('Incorrect id');
         }
+        
     }
 
     const creatingBtns = () => {
@@ -73,7 +51,7 @@ const HeroesFilters = () => {
         });
     }
 
-    const btns = useMemo(() => creatingBtns(), [heroes, option, backupHeroes]);
+    const btns = useMemo(() => creatingBtns(), [option, backupHeroes]);
     // получить стейт фильтр и heroes
     // получить данные про фильтр с сервака и записать в стейт
     // в зависимости от поля элемент в хероес, отображать тех или иных героев
