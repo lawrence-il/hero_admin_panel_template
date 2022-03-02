@@ -17,7 +17,7 @@ import { heroesAdded, optionFetched } from '../../actions';
 
 const HeroesAddForm = () => {
 
-    const {option} = useSelector(state => state);
+    const {option} = useSelector(state => state.filters);
     const {request} = useHttp();
     const dispatch = useDispatch();
 

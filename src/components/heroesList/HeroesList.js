@@ -14,7 +14,9 @@ import '../../components/heroesList/heroesList.sass'
 
 const HeroesList = () => {
 
-    const {heroes, heroesLoadingStatus, activeBtn, backupHeroes} = useSelector(state => state);
+    const {heroes, heroesLoadingStatus, backupHeroes} = useSelector(state => state.heroes);
+    const {activeBtn} = useSelector(state => state.filters);
+
     const dispatch = useDispatch();
     const {request} = useHttp();
     

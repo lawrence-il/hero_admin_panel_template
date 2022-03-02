@@ -1,19 +1,13 @@
 {
   "heroes": [
     {
-      "id": "a98c2c79-4461-47df-9663-cfaf9f89f605",
-      "name": "Первый герой",
-      "description": "Первый герой в рейтинге !",
-      "element": "fire"
-    },
-    {
-      "id": "9e732588-9ea2-4974-90fa-c45855be988a",
+      "id": "916f74f5-8ebc-4b31-b4a6-7488d859b8d3",
       "name": "Неизвестный герой",
       "description": "Скрывающийся в тени",
       "element": "wind"
     },
     {
-      "id": "ad80f195-7127-48a6-a53f-4995ae7fbb36",
+      "id": "e849a062-f782-4ff7-ad64-307d14131736",
       "name": "Морской герой",
       "description": "Как аквамен, но не из DC",
       "element": "water"

@@ -11,7 +11,8 @@ import { filteringValue, filteredHeroes, heroesBackup } from "../../actions";
 
 const HeroesFilters = () => {
 
-    const {heroes, option, activeBtn, backupHeroes} = useSelector(state => state);
+    const {heroes,  backupHeroes} = useSelector(state => state.heroes);
+    const {option, activeBtn} = useSelector(state => state.filters);
     const dispatch = useDispatch();
 
     // Без бекапа не работает правильно фильтрация. 
