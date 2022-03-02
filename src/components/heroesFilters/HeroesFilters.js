@@ -29,9 +29,6 @@ const HeroesFilters = () => {
         if (e.target.id === 'all'&& backupHeroes.length === 0) {
             dispatch(filteringValue(e.target.id));
             dispatch(heroesBackup(heroes));
-        } else if (e.target.id === 'all') {
-            dispatch(filteringValue(e.target.id));
-            dispatch(filteredHeroes(backupHeroes));
         } else if (e.target.id){
             dispatch(filteringValue(e.target.id));
             dispatch(filteredHeroes(newListHeroes));
