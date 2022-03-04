@@ -3,7 +3,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { heroesAdded, optionFetched } from '../../actions';
+import { heroesAdded,  fetchOption} from '../../actions';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -22,8 +22,7 @@ const HeroesAddForm = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        loadingOptionData();
-        
+        dispatch(fetchOption(request))
         // eslint-disable-next-line
     }, []);
 
@@ -31,12 +30,7 @@ const HeroesAddForm = () => {
         values = {id: uuidv4(), ...values};
         dispatch(heroesAdded(values));
         request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(values));
-    }
-    
-    const loadingOptionData = () => {
-        request(`http://localhost:3001/chooseElement`)
-                .then(data => dispatch(optionFetched(data)))
-    }
+    }   
 
     const creatingOption =  () => {
         const options = [];

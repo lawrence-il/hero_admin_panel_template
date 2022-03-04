@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { heroesFetching, heroesFetched, heroesFetchingError, heroesDeleting } from '../../actions';
+import { fetchHeroes, heroesDeleting } from '../../actions';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import '../../components/heroesList/heroesList.sass'
@@ -21,16 +21,9 @@ const HeroesList = () => {
     const {request} = useHttp();
     
     useEffect(() => {
-        dispatch(heroesFetching());
-        loadingHero();
+        dispatch(fetchHeroes(request));
         // eslint-disable-next-line
     }, []);
-
-    const loadingHero = () => {
-        request("http://localhost:3001/heroes")
-            .then(data => dispatch(heroesFetched(data)))
-            .catch(() => dispatch(heroesFetchingError()))
-    }
 
 
     const deletingHero = (e) => {
