@@ -1,6 +1,5 @@
 const initialState = {
     heroes: [],
-    backupHeroes: [],
     heroesLoadingStatus: 'idle',
 }
 
@@ -33,13 +32,6 @@ const heroes = (state = initialState, action) => {
                 ...state,
                 heroes: [...state.heroes, action.payload],
                 heroesLoadingStatus: 'idle',
-                backupHeroes: [...state.backupHeroes, action.payload],
-            }
-        case 'HEROES_BACKUP':
-            return {
-                ...state,
-                heroesLoadingStatus: 'idle',
-                backupHeroes: action.payload
             }
         default: return state
     }

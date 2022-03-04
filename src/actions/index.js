@@ -51,10 +51,3 @@ export const filteredHeroes = (newListHeroes) => {
         payload: newListHeroes,
     }
 }
-
-export const heroesBackup = (heroes) => {
-    return {
-        type: 'HEROES_BACKUP',
-        payload: heroes,
-    }
-}
