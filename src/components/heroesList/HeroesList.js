@@ -48,7 +48,7 @@ const HeroesList = () => {
     const renderHeroesList = (heroes) => {
         let list = [];
         for (let i = 0; i <= heroes.length - 1; i++) {
-            if (heroes[i].element !== activeBtn && activeBtn !== 'all') {
+            if (heroes[i].element !== activeBtn && activeBtn !== 'all') { // для рендоринга только нужных элементов
                 continue;
             } else {
                 list.push(<CSSTransition
