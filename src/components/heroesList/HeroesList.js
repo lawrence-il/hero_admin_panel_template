@@ -26,10 +26,10 @@ const HeroesList = () => {
     }, []);
 
 
-    const deletingHero = (e) => {
-        const newListHeroes = heroes.filter(item => item.id !== e.target.id);  // фильтрую массив чтобы убрать лишнего героя
+    const deletingHero = (id) => {
+        const newListHeroes = heroes.filter(item => item.id !== id);  // фильтрую массив чтобы убрать лишнего героя
         dispatch(heroesDeleting(newListHeroes)); // удаляю героя из heroes
-        request(`http://localhost:3001/heroes/${e.target.id}`, 'DELETE');
+        request(`http://localhost:3001/heroes/${id}`, 'DELETE');
     }
 
     if (heroesLoadingStatus === "loading") {
@@ -51,8 +51,7 @@ const HeroesList = () => {
                                 >
                                 <HeroesListItem 
                                     {...heroes[i]}
-                                    id={heroes[i].id}
-                                    deletingHero={deletingHero}
+                                    deletingHero={() => deletingHero(heroes[i].id)}
                                 />
                             </CSSTransition>)
             }
