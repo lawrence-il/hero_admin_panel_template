@@ -3,7 +3,8 @@ import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { heroesAdded,  fetchOption} from '../../actions';
+import { fetchOption} from '../../actions';
+import { heroesAdded } from '../heroesList/heroesSlice';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать

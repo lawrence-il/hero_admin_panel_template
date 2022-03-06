@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filteringValue } from "../../actions";
+import { filteringValue } from "./filtersSlice";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
