@@ -2,7 +2,7 @@ import {useHttp} from '../../hooks/http.hook';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { heroesDeleting, fetchHeroes } from './heroesSlice';
+import { heroesDeleting, fetchHeroes, selectAll } from './heroesSlice';
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import '../../components/heroesList/heroesList.sass'
@@ -13,10 +13,10 @@ import '../../components/heroesList/heroesList.sass'
 // Удаление идет и с json файла при помощи метода DELETE
 
 const HeroesList = () => {
-
-    const {heroes, heroesLoadingStatus} = useSelector(state => state.heroes);
+    
+    const {heroesLoadingStatus} = useSelector(state => state.heroes);
     const {activeBtn} = useSelector(state => state.filters);
-
+    const heroes = useSelector(selectAll);
     const dispatch = useDispatch();
     const {request} = useHttp();
     

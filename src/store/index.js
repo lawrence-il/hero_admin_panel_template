@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import heroes from '../components/heroesList/heroesSlice';
+import heroes from '../components/heroesList/heroesSlice'; // название здесь опр имена стейтов
 import filters from '../components/heroesFilters/filtersSlice';
 
 

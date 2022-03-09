@@ -1,11 +1,11 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import {useHttp} from '../../hooks/http.hook';
 
-const initialState = {
-    heroes: [],
-    heroesLoadingStatus: 'idle',
-}
+const heroAdapter = createEntityAdapter();
 
+const initialState = heroAdapter.getInitialState({
+    heroesLoadingStatus: 'idle'
+})
 
 export const fetchHeroes = createAsyncThunk(
     'heroes/fetchHeroes',
@@ -16,18 +16,16 @@ export const fetchHeroes = createAsyncThunk(
 )
 
 
-
 const heroesSlice = createSlice({
     name: 'heroes',
     initialState,
     reducers: {
         heroesDeleting: (state, action) => {
-            state.heroes = action.payload;
-            state.heroesLoadingStatus = 'idle';
+            heroAdapter.setAll(state, action);
+
         },
         heroesAdded: (state, action) => {
-            state.heroes.push(action.payload);
-            state.heroesLoadingStatus = 'idle';
+            heroAdapter.addOne(state, action.payload);
         }
 
     },
@@ -37,7 +35,7 @@ const heroesSlice = createSlice({
                 state.heroesLoadingStatus = 'loading'
             })
             .addCase(fetchHeroes.fulfilled, (state, action) => {
-                state.heroes = action.payload;
+                heroAdapter.setAll(state, action.payload)
                 state.heroesLoadingStatus = 'idle';
             })
             .addCase(fetchHeroes.rejected, state => {
@@ -48,6 +46,8 @@ const heroesSlice = createSlice({
 });
 
 const {actions, reducer} = heroesSlice;
+
+export const {selectAll} = heroAdapter.getSelectors(state => state.heroes);
 
 export default reducer;
 export const {
