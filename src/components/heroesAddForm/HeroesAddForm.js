@@ -3,7 +3,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchOption} from '../../actions';
+import { fetchOption} from '../heroesFilters/filtersSlice';
 import { heroesAdded } from '../heroesList/heroesSlice';
 
 // Задача для этого компонента:
