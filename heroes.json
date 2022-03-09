@@ -20,13 +20,6 @@
     }
   ],
   "filters": [
-    "all",
-    "fire",
-    "water",
-    "wind",
-    "earth"
-  ],
-  "chooseElement": [
     {
       "value": "all",
       "text": "Все",
