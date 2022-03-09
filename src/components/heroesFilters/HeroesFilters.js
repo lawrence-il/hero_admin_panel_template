@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filteringValue } from "./filtersSlice";
+import { filteringValue, selectAll } from "./filtersSlice";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -11,7 +11,9 @@ import { filteringValue } from "./filtersSlice";
 
 const HeroesFilters = () => {
 
-    const {option, activeBtn} = useSelector(state => state.filters);
+    const {activeBtn} = useSelector(state => state.filters);
+    const filter = useSelector(selectAll);
+    console.log(filter);
     const dispatch = useDispatch();
 
     const filtering = (e) => {
@@ -24,7 +26,7 @@ const HeroesFilters = () => {
     }
 
     const creatingBtns = () => {
-        return option.map(({value, text, className}, i) => {
+        return filter.map(({value, text, className}, i) => {
                 return ( 
                     <button id={value} 
                         onClick={filtering} 
@@ -37,7 +39,7 @@ const HeroesFilters = () => {
         });
     }
 
-    const btns = useMemo(() => creatingBtns(), [option, activeBtn]);
+    const btns = useMemo(() => creatingBtns(), [filter, activeBtn]);
     // получить стейт фильтр и heroes
     // получить данные про фильтр с сервака и записать в стейт
     // в зависимости от поля элемент в хероес, отображать тех или иных героев

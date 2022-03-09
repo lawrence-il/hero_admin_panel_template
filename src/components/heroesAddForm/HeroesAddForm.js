@@ -3,7 +3,7 @@ import { useHttp } from '../../hooks/http.hook';
 import { Formik, Form, Field } from 'formik';
 import { useSelector, useDispatch } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchOption} from '../heroesFilters/filtersSlice';
+import { fetchFilter, selectAll} from '../heroesFilters/filtersSlice';
 import { heroesAdded } from '../heroesList/heroesSlice';
 
 // Задача для этого компонента:
@@ -18,12 +18,12 @@ import { heroesAdded } from '../heroesList/heroesSlice';
 
 const HeroesAddForm = () => {
 
-    const {option} = useSelector(state => state.filters);
+    const filter = useSelector(selectAll);
     const {request} = useHttp();
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(fetchOption(request))
+        dispatch(fetchFilter(request))
         // eslint-disable-next-line
     }, []);
 
@@ -35,20 +35,20 @@ const HeroesAddForm = () => {
 
     const creatingOption =  () => {
         const options = [];
-        for (let i = 0; i <= option.length - 1; i++) {
-            if (option[i].text === 'Все') continue;
+        for (let i = 0; i <= filter.length - 1; i++) {
+            if (filter[i].text === 'Все') continue;
             options[i] = <option 
                             key={i} 
-                            value={option[i].value}
+                            value={filter[i].value}
                             >
-                                {option[i].text}
+                                {filter[i].text}
                         </option>
         }
         return options;
     } 
     
     // eslint-disable-next-line
-    const options = useMemo(() => creatingOption(), [option]);
+    const options = useMemo(() => creatingOption(), [filter]);
 
     return (
         <Formik

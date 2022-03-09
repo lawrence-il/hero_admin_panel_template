@@ -1,16 +1,19 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
 import { useHttp } from "../../hooks/http.hook";
 
-const initialState = {
-    option: [],
-    activeBtn: 'all'
-}
+const fiterAdapter = createEntityAdapter({
+    selectId: (filters) => filters.value
+});
 
-export const fetchOption = createAsyncThunk(
-    'filter/fetchOption',
+const initialState = fiterAdapter.getInitialState({
+    activeBtn: 'all'
+})
+
+export const fetchFilter = createAsyncThunk(
+    'filter/fetchFilter',
     async () => {
         const {request} = useHttp();
-        return await request(`http://localhost:3001/chooseElement`)
+        return await request(`http://localhost:3001/filters`)
     }
 )
 
@@ -20,24 +23,23 @@ const filtersSlice = createSlice({
     reducers: {
         filteringValue: (state, action) => {
             state.activeBtn = action.payload
-        },
-        filteredHeroes: (state, action) => {
-            state.heroes = action.payload
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchOption.fulfilled, (state, action) => {
-                state.option = action.payload
+            .addCase(fetchFilter.fulfilled, (state, action) => {
+                console.log(action.payload);
+                fiterAdapter.setAll(state, action.payload)
             })
     }
 });
 
 const {actions, reducer} = filtersSlice;
 
+export const {selectAll} = fiterAdapter.getSelectors(state => state.filters);
+
 export default reducer;
 export const {
-    optionFetched,
+    filterFetched,
     filteringValue,
-    filteredHeroes
 } = actions
