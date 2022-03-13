@@ -1,6 +1,6 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { filteringValue, selectAll } from "./filtersSlice";
+import { filteringValue, fetchFilter, selectAll } from "./filtersSlice";
 
 // Задача для этого компонента:
 // Фильтры должны формироваться на основании загруженных данных
@@ -14,6 +14,10 @@ const HeroesFilters = () => {
     const {activeBtn} = useSelector(state => state.filters);
     const filter = useSelector(selectAll);
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchFilter())
+    }, [])
 
     const filtering = (e) => {
         if (e.target.id) {

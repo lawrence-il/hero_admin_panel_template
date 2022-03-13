@@ -1,8 +1,9 @@
-import {useHttp} from '../../hooks/http.hook';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useMemo } from 'react';
+import {  useSelector } from 'react-redux';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { heroesDeleting, fetchHeroes, selectAll } from './heroesSlice';
+
+import { useGetHeroesQuery,  useDeleteHeroMutation} from '../../api/apiSlice';
+
 import HeroesListItem from "../heroesListItem/HeroesListItem";
 import Spinner from '../spinner/Spinner';
 import '../../components/heroesList/heroesList.sass'
@@ -14,30 +15,21 @@ import '../../components/heroesList/heroesList.sass'
 
 const HeroesList = () => {
     
-    const {heroesLoadingStatus} = useSelector(state => state.heroes);
-    const {activeBtn} = useSelector(state => state.filters);
-    const heroes = useSelector(selectAll);
-    const dispatch = useDispatch();
-    const {request} = useHttp();
-    
-    useEffect(() => {
-        dispatch(fetchHeroes());
-        // eslint-disable-next-line
-    }, []);
+    const {
+        data: heroes = [],
+        isLoading,
+        isError,
+    } = useGetHeroesQuery();
 
+    const [deleteHero] = useDeleteHeroMutation();
+
+    const {activeBtn} = useSelector(state => state.filters);
 
     const deletingHero = (id) => {
-        const newListHeroes = heroes.filter(item => item.id !== id);  // фильтрую массив чтобы убрать лишнего героя
-        dispatch(heroesDeleting(newListHeroes)); // удаляю героя из heroes
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE');
+        deleteHero(id);
     }
 
-    if (heroesLoadingStatus === "loading") {
-        return <Spinner/>;
-    } else if (heroesLoadingStatus === "error") {
-        return <h5 className="text-center mt-5">Ошибка загрузки</h5>
-    }
-
+    
     const renderHeroesList = (heroes) => {
         let list = [];
         for (let i = 0; i <= heroes.length - 1; i++) {
@@ -67,9 +59,16 @@ const HeroesList = () => {
             )
         }
         return list;
-}
-    
-    const heroesList = renderHeroesList(heroes);
+    }
+    // eslint-disable-next-line
+    const heroesList = useMemo(() => renderHeroesList(heroes), [heroes, activeBtn]);
+
+    if (isLoading) {
+        return <Spinner/>;
+    } else if (isError) {
+        return <h5 className="text-center mt-5">Ошибка загрузки</h5>
+    }
+
     return (
         <TransitionGroup>
             {heroesList}

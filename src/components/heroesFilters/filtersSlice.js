@@ -38,7 +38,4 @@ const {actions, reducer} = filtersSlice;
 export const {selectAll} = fiterAdapter.getSelectors(state => state.filters);
 
 export default reducer;
-export const {
-    filterFetched,
-    filteringValue,
-} = actions
+export const { filteringValue } = actions

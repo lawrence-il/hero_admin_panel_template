@@ -1,10 +1,10 @@
-import { useEffect, useMemo } from 'react';
-import { useHttp } from '../../hooks/http.hook';
+import { useMemo } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { v4 as uuidv4 } from 'uuid';
-import { fetchFilter, selectAll} from '../heroesFilters/filtersSlice';
-import { heroesAdded } from '../heroesList/heroesSlice';
+
+import { selectAll } from '../heroesFilters/filtersSlice';
+import { useCreateHeroMutation } from '../../api/apiSlice';
 
 // Задача для этого компонента:
 // Реализовать создание нового героя с введенными данными. Он должен попадать
@@ -19,18 +19,14 @@ import { heroesAdded } from '../heroesList/heroesSlice';
 const HeroesAddForm = () => {
 
     const filter = useSelector(selectAll);
-    const {request} = useHttp();
-    const dispatch = useDispatch();
 
-    useEffect(() => {
-        dispatch(fetchFilter(request))
-        // eslint-disable-next-line
-    }, []);
+    const [createHero, {isLoading}] =useCreateHeroMutation();
+
 
     const addingHeroes = (values) => {
         values = {id: uuidv4(), ...values};
-        dispatch(heroesAdded(values));
-        request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(values));
+        createHero(values).unwrap();
+        
     }   
 
     const creatingOption =  () => {
