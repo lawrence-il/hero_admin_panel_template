@@ -27,10 +27,11 @@ const HeroesAddForm = () => {
         // eslint-disable-next-line
     }, []);
 
-    const addingHeroes = (values) => {
+    const addingHeroes = (values, resetForm) => {
         values = {id: uuidv4(), ...values};
         dispatch(heroesAdded(values));
         request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(values));
+        resetForm();
     }   
 
     const creatingOption =  () => {
@@ -61,7 +62,7 @@ const HeroesAddForm = () => {
 
                 }
             }
-            onSubmit={addingHeroes}
+            onSubmit={(values, {resetForm}) => addingHeroes(values, resetForm)}
         >
             <Form className="border p-4 shadow-lg rounded">
                 <div className="mb-3">
