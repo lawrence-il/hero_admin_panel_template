@@ -30,7 +30,7 @@ const HeroesAddForm = () => {
     const addingHeroes = (values, resetForm) => {
         values = {id: uuidv4(), ...values};
         dispatch(heroesAdded(values));
-        request(`http://localhost:3001/heroes`, 'POST', JSON.stringify(values));
+        request(`https://json-server-heroku1.herokuapp.com/heroes`, 'POST', JSON.stringify(values));
         resetForm();
     }   
 

@@ -29,7 +29,7 @@ const HeroesList = () => {
     const deletingHero = (id) => {
         const newListHeroes = heroes.filter(item => item.id !== id);  // фильтрую массив чтобы убрать лишнего героя
         dispatch(heroesDeleting(newListHeroes)); // удаляю героя из heroes
-        request(`http://localhost:3001/heroes/${id}`, 'DELETE');
+        request(`https://json-server-heroku1.herokuapp.com/heroes/${id}`, 'DELETE');
     }
 
     if (heroesLoadingStatus === "loading") {
