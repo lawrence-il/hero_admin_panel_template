@@ -43,9 +43,7 @@ const HeroesFilters = () => {
     }
 
     const btns = useMemo(() => creatingBtns(), [filter, activeBtn]);
-    // получить стейт фильтр и heroes
-    // получить данные про фильтр с сервака и записать в стейт
-    // в зависимости от поля элемент в хероес, отображать тех или иных героев
+
     return (
         <div className="card shadow-lg mt-4">
             <div className="card-body">
